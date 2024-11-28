@@ -15,7 +15,7 @@ services:
     build:
       context: ftp_serv
     ports:
-      - "2121:2121"
+      - "21:21"
       - "20:20"
     restart: on-failure
 

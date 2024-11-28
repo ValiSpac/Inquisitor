@@ -12,7 +12,7 @@ RUN useradd -m -s /bin/bash ftpuser && \
     chmod 750 /home/ftpuser/ftp && \
     chown ftpuser:ftpuser /home/ftpuser/ftp
 
-EXPOSE 20 2121
+EXPOSE 20 21
 
 COPY run.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh

@@ -2,8 +2,17 @@ import ipaddress
 import argparse
 import re
 import os
-import scapy
+import scapy.all as scapy
 import netifaces
+
+def packet_callback(pkt):
+    if pkt.haslayer('TCP') and pkt.haslayer('IP'):
+        if pkt['TCP'].dport == 21 or pkt['TCP'].sport == 21:
+            print(f"Packet captured: {pkt.summary()}")
+
+def sniff_for_packets(args):
+    capture = scapy.sniff(iface=args.interf, count=5, prn=packet_callback)
+    capture.summary()
 
 def main():
     if os.geteuid() != 0:
@@ -26,6 +35,7 @@ def main():
         t_ip=ipaddress.IPv4Address(args.IP_target)
         if args.interf not in netifaces.interfaces():
             raise Exception(f'{args.interf} is not an available interface')
+        sniff_for_packets(args)
     except Exception as e:
         parser.error(e)
     except KeyboardInterrupt as e:
