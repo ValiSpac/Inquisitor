@@ -1,0 +1,24 @@
+---
+services:
+  arp_test:
+    container_name: arp_test
+    networks:
+      - arp_network
+    build:
+      context: arp_test
+    restart: on-failure
+
+  ftp_serv:
+    container_name: ftp_serv
+    networks:
+      - arp_network
+    build:
+      context: ftp_serv
+    ports:
+      - "2121:2121"
+      - "20:20"
+    restart: on-failure
+
+networks:
+  arp_network:
+    driver: bridge
